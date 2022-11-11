@@ -2,7 +2,7 @@
 using Unity.Netcode;
 using UnityEngine;
 
-namespace pdox.UntiyNetcode
+namespace pdox.UnityNetcode
 {
     public class DevMenuManager : MonoBehaviour
     {
@@ -47,12 +47,12 @@ static void SubmitNewPosition()
                 if (NetworkManager.Singleton.IsServer && !NetworkManager.Singleton.IsClient )
                 {
                     foreach (ulong uid in NetworkManager.Singleton.ConnectedClientsIds)
-                        NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<pdox.UntiyNetcode.Player>().Move();
+                        NetworkManager.Singleton.SpawnManager.GetPlayerNetworkObject(uid).GetComponent<pdox.UnityNetcode.Player>().Move();
                 }
                 else
                 {
                     var playerObject = NetworkManager.Singleton.SpawnManager.GetLocalPlayerObject();
-                    var player = playerObject.GetComponent<pdox.UntiyNetcode.Player>();
+                    var player = playerObject.GetComponent<pdox.UnityNetcode.Player>();
                     player.Move();
                 }
             }

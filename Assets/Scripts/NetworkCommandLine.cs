@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace pdox.UntiyNetcode
+namespace pdox.UnityNetcode
 {
     public class NetworkCommandLine : MonoBehaviour
     {

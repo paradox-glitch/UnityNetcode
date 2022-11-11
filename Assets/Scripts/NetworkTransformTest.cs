@@ -2,7 +2,7 @@ using System;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace pdox.UntiyNetcode
+namespace pdox.UnityNetcode
 {
     public class NetworkTransformTest : NetworkBehaviour
     {
