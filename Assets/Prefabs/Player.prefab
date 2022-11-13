@@ -11,13 +11,10 @@ GameObject:
   - component: {fileID: 4040748850644160888}
   - component: {fileID: 4040748850644160891}
   - component: {fileID: 4040748850644160890}
-  - component: {fileID: 4771088350729094138}
   - component: {fileID: 4040748850644160893}
   - component: {fileID: 4040748850644160892}
   - component: {fileID: -1243955977032043077}
-  - component: {fileID: -7409149629676973070}
-  - component: {fileID: 1037025995988958122}
-  - component: {fileID: -741653171982542974}
+  - component: {fileID: -4264292544704999714}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -33,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4040748850644160895}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.83154, y: -6.3751225, z: -14.217399}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -90,18 +87,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4771088350729094138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4040748850644160895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1968fc7368fd5414c897fac42398de57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &4040748850644160893
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -144,33 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0e371e86100fb4d8cbefb40a5b7a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Position:
-    m_InternalValue: {x: 0, y: 0, z: 0}
---- !u!114 &-7409149629676973070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4040748850644160895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 416c74fe2b02caf42839ed50cd96091e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1037025995988958122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4040748850644160895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43da3d6be84a0804ba530f00250619d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &-741653171982542974
+  m_SpawnedObjectPrefab: {fileID: 45835033957038328, guid: 657778a8ded694b4fb2829f5f28c0a5a, type: 3}
+--- !u!114 &-4264292544704999714
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,14 +143,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SyncPositionX: 1
-  SyncPositionY: 1
+  SyncPositionY: 0
   SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
+  SyncRotAngleX: 0
+  SyncRotAngleY: 0
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
   PositionThreshold: 0.001
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01

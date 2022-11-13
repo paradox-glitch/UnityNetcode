@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -5,44 +7,89 @@ namespace pdox.UnityNetcode
 {
     public class Player : NetworkBehaviour
     {
-        public NetworkVariable<Vector3> Position = new NetworkVariable<Vector3>();
+        [SerializeField] private Transform m_SpawnedObjectPrefab;
+
+        private NetworkVariable<MyCustomData> l_RandomNumber = new NetworkVariable<MyCustomData>(new MyCustomData
+        {
+            _int = 0,
+            _bool = true
+        }, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+        public struct MyCustomData : INetworkSerializable
+        {
+            public int _int;
+            public bool _bool;
+            public FixedString128Bytes _string;
+
+            public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+            {
+                serializer.SerializeValue(ref _int);
+                serializer.SerializeValue(ref _bool);
+                serializer.SerializeValue(ref _string);
+            }
+        }
 
         public override void OnNetworkSpawn()
         {
+            base.OnNetworkSpawn();
+
             if (IsOwner)
             {
-                Move();
+                l_RandomNumber.Value = new MyCustomData
+                {
+                    _int = Random.Range(0, 100),
+                    _bool = Random.Range(0, 2) == 0
+                };
             }
+
+            l_RandomNumber.OnValueChanged += (MyCustomData a_OldValue, MyCustomData a_NewValue) =>
+            {
+                Debug.Log($"Client ID: {OwnerClientId} Random number changed from {a_OldValue._int} to {a_NewValue._int}");
+            };
         }
 
-        public void Move()
+        private void Update()
         {
-            if (NetworkManager.Singleton.IsServer)
+
+            if (!IsOwner)
+                return;
+
+            if (Input.GetKeyDown(KeyCode.T)) // T for test
             {
-                var randomPosition = GetRandomPositionOnPlane();
-                transform.position = randomPosition;
-                Position.Value = randomPosition;
+
+                Transform l_SpawnedObject = Instantiate(m_SpawnedObjectPrefab, transform.position, transform.rotation);
+                l_SpawnedObject.GetComponent<NetworkObject>().Spawn(true);
+
+                l_RandomNumber.Value = new MyCustomData
+                {
+                    _int = Random.Range(0, 100),
+                    _bool = Random.Range(0, 2) == 0
+                };
+
+                TestClientRpc(new ClientRpcParams{ Send = new ClientRpcSendParams{ TargetClientIds = new List<ulong> { 1 } } });
             }
-            else
-            {
-                SubmitPositionRequestServerRpc();
-            }
+
+            Vector3 l_MoveDirection = Vector3.zero;
+            if (Input.GetKey(KeyCode.W)) l_MoveDirection.z += 1;
+            if (Input.GetKey(KeyCode.S)) l_MoveDirection.z -= 1;
+            if (Input.GetKey(KeyCode.A)) l_MoveDirection.x -= 1;
+            if (Input.GetKey(KeyCode.D)) l_MoveDirection.x += 1;
+
+            float l_Speed = 3f;
+
+            MoveServerRpc(l_MoveDirection * l_Speed * Time.deltaTime);
         }
 
         [ServerRpc]
-        void SubmitPositionRequestServerRpc(ServerRpcParams rpcParams = default)
+        public void MoveServerRpc(Vector3 position)
         {
-            Position.Value = GetRandomPositionOnPlane();
+            transform.position += position;
         }
 
-        static Vector3 GetRandomPositionOnPlane()
+        [ClientRpc]
+        public void TestClientRpc(ClientRpcParams a_ClientRpcParams = default)
         {
-            return new Vector3(Random.Range(-3f, 3f), 1f, Random.Range(-3f, 3f));
-        }
-
-        void Update()
-        {
-            transform.position = Position.Value;
+            Debug.Log("TestClientRpc");
         }
     }
 }
