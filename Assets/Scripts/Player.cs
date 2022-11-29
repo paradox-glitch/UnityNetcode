@@ -8,6 +8,7 @@ namespace pdox.UnityNetcode
     public class Player : NetworkBehaviour
     {
         [SerializeField] private Transform m_SpawnedObjectPrefab;
+        [SerializeField] private Canvas m_PlayerInfoCanvas;
 
         private NetworkVariable<MyCustomData> l_RandomNumber = new NetworkVariable<MyCustomData>(new MyCustomData
         {
@@ -40,6 +41,9 @@ namespace pdox.UnityNetcode
                     _int = Random.Range(0, 100),
                     _bool = Random.Range(0, 2) == 0
                 };
+            } else
+            {
+                m_PlayerInfoCanvas.transform.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"ClientID: {OwnerClientId}";
             }
 
             l_RandomNumber.OnValueChanged += (MyCustomData a_OldValue, MyCustomData a_NewValue) =>
@@ -52,7 +56,11 @@ namespace pdox.UnityNetcode
         {
 
             if (!IsOwner)
+            {
+                m_PlayerInfoCanvas.gameObject.transform.rotation = Quaternion.LookRotation(m_PlayerInfoCanvas.gameObject.transform.position - Camera.main.transform.position);
+                // m_PlayerInfoCanvas.transform.forward = Camera.main.transform.forward;
                 return;
+            }
 
             if (Input.GetKeyDown(KeyCode.T)) // T for test
             {
