@@ -41,7 +41,10 @@ namespace pdox.UnityNetcode
                     _int = Random.Range(0, 100),
                     _bool = Random.Range(0, 2) == 0
                 };
-            } else
+
+                m_PlayerInfoCanvas.gameObject.SetActive(false);
+            }
+            else
             {
                 m_PlayerInfoCanvas.transform.GetComponentInChildren<TMPro.TextMeshProUGUI>().text = $"ClientID: {OwnerClientId}";
             }
@@ -57,16 +60,17 @@ namespace pdox.UnityNetcode
 
             if (!IsOwner)
             {
-                m_PlayerInfoCanvas.gameObject.transform.rotation = Quaternion.LookRotation(m_PlayerInfoCanvas.gameObject.transform.position - Camera.main.transform.position);
-                // m_PlayerInfoCanvas.transform.forward = Camera.main.transform.forward;
+                Vector3 l_LookPosition = Camera.main.transform.position; //* Gets the current camera position
+                l_LookPosition = m_PlayerInfoCanvas.gameObject.transform.position - Camera.main.transform.position; //* Fixes it facing the wrong way;
+                l_LookPosition.y = 0; //* Resets y height so player info wll stay straight
+                m_PlayerInfoCanvas.gameObject.transform.rotation = Quaternion.LookRotation(l_LookPosition);
                 return;
             }
 
             if (Input.GetKeyDown(KeyCode.T)) // T for test
             {
 
-                Transform l_SpawnedObject = Instantiate(m_SpawnedObjectPrefab, transform.position, transform.rotation);
-                l_SpawnedObject.GetComponent<NetworkObject>().Spawn(true);
+                SpawnObjectServerRpc(this.transform.position);
 
                 l_RandomNumber.Value = new MyCustomData
                 {
@@ -74,7 +78,7 @@ namespace pdox.UnityNetcode
                     _bool = Random.Range(0, 2) == 0
                 };
 
-                TestClientRpc(new ClientRpcParams{ Send = new ClientRpcSendParams{ TargetClientIds = new List<ulong> { 1 } } });
+                TestClientRpc(new ClientRpcParams { Send = new ClientRpcSendParams { TargetClientIds = new List<ulong> { 1 } } });
             }
 
             Vector3 l_MoveDirection = Vector3.zero;
@@ -92,6 +96,13 @@ namespace pdox.UnityNetcode
         public void MoveServerRpc(Vector3 position)
         {
             transform.position += position;
+        }
+
+        [ServerRpc]
+        public void SpawnObjectServerRpc(Vector3 a_Position)
+        {
+            Transform l_SpawnedObject = Instantiate(m_SpawnedObjectPrefab, a_Position, Quaternion.Euler(Vector3.zero));
+            l_SpawnedObject.GetComponent<NetworkObject>().Spawn(true);
         }
 
         [ClientRpc]
