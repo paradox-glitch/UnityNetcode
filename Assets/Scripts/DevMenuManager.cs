@@ -38,9 +38,22 @@ namespace pdox.UnityNetcode
             GUILayout.Label("Transport: " +
                 NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetType().Name);
             GUILayout.Label("Mode: " + mode);
+
+                        if (NetworkManager.Singleton.IsHost)
+            {
+                if (GUILayout.Button("Close Host")) NetworkManager.Singleton.Shutdown();
+            }
+            else if (NetworkManager.Singleton.IsServer)
+            {
+                if (GUILayout.Button("Close Server")) NetworkManager.Singleton.Shutdown();
+            }
+            else if (NetworkManager.Singleton.IsClient)
+            {
+                if (GUILayout.Button("Close Client")) NetworkManager.Singleton.Shutdown();
+            }
         }
 
-static void SubmitNewPosition()
+        static void SubmitNewPosition()
         {
 
         }
