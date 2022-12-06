@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 4040748850644160892}
   - component: {fileID: -1243955977032043077}
   - component: {fileID: -4264292544704999714}
+  - component: {fileID: 268077347714412449}
+  - component: {fileID: -5963611009685719020}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -132,6 +134,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SpawnedObjectPrefab: {fileID: 45835033957038328, guid: 657778a8ded694b4fb2829f5f28c0a5a, type: 3}
   m_PlayerInfoCanvas: {fileID: 6037969465553238619}
+  m_PlayerMovementSpeed: 5
+  m_PlayerRotationSensitivity: 3
+  m_PlayerJumpForce: 10
 --- !u!114 &-4264292544704999714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +163,34 @@ MonoBehaviour:
   ScaleThreshold: 0.01
   InLocalSpace: 0
   Interpolate: 1
+--- !u!54 &268077347714412449
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4040748850644160895}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!114 &-5963611009685719020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4040748850644160895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c0be61502bb534f922ebb746851216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5661593002902403048
 GameObject:
   m_ObjectHideFlags: 0
